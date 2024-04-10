@@ -33,7 +33,9 @@ void x_task(void *params) {
         } else {
             x_reading.val = (adc_read() - 2047) / 8;  // Lê o valor ADC do eixo X
         }
-        xQueueSend(xQueueAdc, &x_reading, portMAX_DELAY);  // Envia a leitura para a fila
+        if (x_reading.val != 0) {
+            xQueueSend(xQueueAdc, &x_reading, portMAX_DELAY);  // Envia a leitura para a fila
+        }
         vTaskDelay(pdMS_TO_TICKS(100));  // Atraso para desacoplamento das tarefas
     }
 }
@@ -48,7 +50,9 @@ void y_task(void *params) {
         } else {
             y_reading.val = (adc_read() - 2047) / 8;  // Lê o valor ADC do eixo X
         }
-        xQueueSend(xQueueAdc, &y_reading, portMAX_DELAY);  // Envia a leitura para a fila
+        if (y_reading.val != 0) {
+            xQueueSend(xQueueAdc, &y_reading, portMAX_DELAY);  // Envia a leitura para a fila
+        }
         vTaskDelay(pdMS_TO_TICKS(100));  // Atraso para desacoplamento das tarefas
     }
 }
